@@ -28,26 +28,26 @@ echo 'Значение константы REVO: ' . REVO.'<br>';
 // REVO = 2016; Попытка изменить константу дает ошибку Parse error: syntax error, unexpected '='
 
 // Задание #4
-$age = 39;
+$age = 99;
 
-if (18 < $age && $age <= 65) {
+if ($age > 18 && $age <= 65) {
     echo 'Вам еще работать и работать <br>';
 } elseif ($age > 65) {
     echo 'Вам пора на пенсию <br>';
-} elseif ($age < 18) {
+} elseif ($age < 18 && $age > 0) {
     echo 'Вам еще рано работать <br>';
 } else {
     echo 'Неизвестный возраст <br>';
 }
 
 // Задание #5
-$day = 1;
+$day = 15;
 
 switch ($day) {
-    case (1 <= $day && $day <= 5):
+    case ($day >=1 && $day <= 5):
         echo 'Это рабочий день <br>';
         break;
-    case (5 < $day && $day <= 7):
+    case ($day > 5 && $day <= 7):
         echo 'Это выходной день <br>';
         break;
     default:
@@ -114,6 +114,8 @@ $arr = explode(' ', $str);
 echo ('<pre>');
 print_r($arr);
 echo ('</pre>');
+
+$arr = array_reverse($arr);
 
 $i = 0;
 $new_str = $arr[0];
