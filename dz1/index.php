@@ -115,13 +115,15 @@ echo ('<pre>');
 print_r($arr);
 echo ('</pre>');
 
-$arr = array_reverse($arr);
-
 $i = 0;
-$new_str = $arr[0];
-while (++$i < count($arr)) {
-    $new_str .= '_' . $arr[$i];
+$new_arr = [];
+$number_el = count($arr);
+
+while ($i++ < $number_el) {
+    $new_arr[] = $arr[$number_el - $i];
 }
+
+$new_str = implode('_', $new_arr);
 echo $new_str . '<br>';
 
 ?>
