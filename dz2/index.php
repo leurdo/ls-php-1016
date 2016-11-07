@@ -4,8 +4,8 @@ mb_internal_encoding("UTF-8");
 
 // Задание 1
 
-function StringArrayOutput($string_array, $resultType = false) {
-
+function StringArrayOutput($string_array, $resultType = false)
+{
     $result = '';
     foreach ($string_array as $string) {
         if ($resultType) {
@@ -28,8 +28,8 @@ echo StringArrayOutput($testArray, true);
 
 // Задание 2
 
-function ArrayMath ($num_array, $operator) {
-
+function ArrayMath($num_array, $operator)
+{
     $result = '';
     foreach ($num_array as $num) {
         if (is_numeric($num)) {
@@ -64,13 +64,14 @@ function ArrayMath ($num_array, $operator) {
 $testArray = array (5, 0, 1);
 $operator = '*';
 echo '<br>Массив: ';
-print_r ($testArray);
+print_r($testArray);
 echo '<br>Оператор: ' . $operator;
 echo '<br>Результат операции: ' . ArrayMath($testArray, $operator);
 
 // Задание 3
 
-function CulcEverything() {
+function CulcEverything()
+{
     if (func_get_args()) {
         for ($i = 1; $i < func_num_args(); $i++) {
             if (!is_numeric(func_get_arg($i))) {
@@ -117,7 +118,8 @@ echo '<br>' . CulcEverything('+', 1, 2, 3, 5.2);
 
 // Задание 4
 
-function MultiplicationTable($cols, $rows) {
+function MultiplicationTable($cols, $rows)
+{
     if (is_integer($cols) && (is_integer($rows))) {
         echo '<table>';
         for ($row = 1; $row <= $rows; $row++) {
@@ -138,7 +140,8 @@ MultiplicationTable(20, 1.7);
 
 // Задание 5
 
-function IsPalindrom($string) {
+function IsPalindrom($string)
+{
     $string = mb_strtolower(str_replace(' ', '', $string));
 
     $rev_str = '';
@@ -153,7 +156,8 @@ function IsPalindrom($string) {
     }
 }
 
-function CheckIfPalindrom ($string) {
+function CheckIfPalindrom($string)
+{
     if (IsPalindrom($string)) {
         return 'Это палиндром';
     } else {
@@ -175,7 +179,8 @@ echo mktime(0, 0, 0, 2, 24, 2016);
 
 $string = 'Карл у Клары украл Кораллы';
 
-function KarlProcessing ($string) {
+function KarlProcessing($string)
+{
 
     $k = mb_stripos($string, 'к');
 
@@ -198,7 +203,6 @@ function KarlProcessing ($string) {
     $string = $before_k . $after_k;
 
     KarlProcessing($string);
-
 }
 
 echo '<br>';
@@ -210,30 +214,33 @@ $replacement = 'Три';
 
 echo My_mb_substr_replace($string, $replacement, 0, 3);
 
-function My_mb_substr_replace($string, $replacement, $start, $length=null){
+function My_mb_substr_replace($string, $replacement, $start, $length = null)
+{
 
     if ($length == null) {
         return mb_substr($string, 0, $start).$replacement;
-    }
-    else{
+    } else {
         return mb_substr($string, 0, $start). $replacement. mb_substr($string, $start + $length, mb_strlen($string));
     }
-
 }
 
 // Задание 8
 
-function CheckNetwork($string) {
-    preg_match("/(:\))/",$string, $matches);
+function CheckNetwork($string)
+{
+    preg_match("/(:\))/", $string, $matches);
     if ($matches) {
         return DrawSmile();
     } else {
         preg_match("/(?<=RX packets:)[0-9]+/", $string, $matches);
-        if ($matches[0] > 1000) return 'Сеть есть';
+        if ($matches[0] > 1000) {
+            return 'Сеть есть';
+        }
     }
 }
 
-function DrawSmile() {
+function DrawSmile()
+{
     return ('( ͡° ͜ʖ ͡°)');
 }
 
@@ -243,7 +250,8 @@ echo CheckNetwork($string);
 
 // Задание 9
 
-function Greeting($file_name) {
+function Greeting($file_name)
+{
     return file_get_contents($file_name);
 }
 
@@ -265,5 +273,3 @@ if ($test) {
 }
 
 fclose($handle);
-
-?>
