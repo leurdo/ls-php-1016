@@ -11,15 +11,14 @@ function StringArrayOutput($string_array, $resultType = false)
         if ($resultType) {
             $result .= $string;
         } else {
-            $result .= '<p>' . $string . '</p>';
+            echo '<p>' . $string . '</p>';
         }
     }
 
     if ($resultType) {
         $result = '<p>' . $result . '</p>';
+        return $result;
     }
-
-    return $result;
 }
 
 $testArray = array('У', 'Попа', 'Была', 'Собака');
@@ -73,6 +72,9 @@ echo '<br>Результат операции: ' . ArrayMath($testArray, $operat
 function CulcEverything()
 {
     if (func_get_args()) {
+        if (func_num_args() < 3) {
+            return 'В функцию необходимо передать оператор и не менее 2 чисел';
+        }
         for ($i = 1; $i < func_num_args(); $i++) {
             if (!is_numeric(func_get_arg($i))) {
                 return 'Все аргументы, кроме первого, должны быть числами.';
@@ -108,13 +110,13 @@ function CulcEverything()
                 return 'Первым параметром должен быть оператор +, -, * или /';
         }
     } else {
-        return 'Передайте в функцию оператор и числа';
+        return 'Передайте в функцию оператор и не менее 2 чисел';
     }
 
     return 'Результат операции: ' . $result;
 }
 
-echo '<br>' . CulcEverything('+', 1, 2, 3, 5.2);
+echo '<br>' . CulcEverything('+', 1, 2);
 
 // Задание 4
 
@@ -181,48 +183,15 @@ $string = 'Карл у Клары украл Кораллы';
 
 function KarlProcessing($string)
 {
-
-    $k = mb_stripos($string, 'к');
-
-    if ($k === false) {
-        echo $string;
-        return;
-    }
-
-    if ($k == 0) {
-        $before_k = '';
-    } else {
-        $before_k = mb_substr($string, 0, $k);
-    }
-    if ($k == mb_strlen($string)) {
-        $after_k = '';
-    } else {
-        $after_k = mb_substr($string, $k + 1);
-    }
-
-    $string = $before_k . $after_k;
-
-    KarlProcessing($string);
+    return preg_replace('/К/', '', $string);
 }
 
 echo '<br>';
-KarlProcessing($string);
+echo KarlProcessing($string);
 
 echo '<br>';
-$string = 'Две бутылки лимонада';
-$replacement = 'Три';
 
-echo My_mb_substr_replace($string, $replacement, 0, 3);
-
-function My_mb_substr_replace($string, $replacement, $start, $length = null)
-{
-
-    if ($length == null) {
-        return mb_substr($string, 0, $start).$replacement;
-    } else {
-        return mb_substr($string, 0, $start). $replacement. mb_substr($string, $start + $length, mb_strlen($string));
-    }
-}
+echo preg_replace('/Две/', 'Три', 'Две бутылки лимонада');
 
 // Задание 8
 
