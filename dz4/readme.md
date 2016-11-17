@@ -2,4 +2,4 @@
 =====================
 
 ### Николай, успехов и удачи во всем!
-!(http://disput-pmr.ru/attachments/1236597781_g-jpg.27681/)
+![hb](http://disput-pmr.ru/attachments/1236597781_g-jpg.27681/)
