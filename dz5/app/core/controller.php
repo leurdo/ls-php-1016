@@ -4,7 +4,7 @@ class Controller {
 
     public $model;
     public $view;
-    public $uploaddir = 'PHOTO_PATH';
+    public $uploaddir = PHOTO_PATH;
 
     function __construct()
     {

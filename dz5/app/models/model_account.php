@@ -25,8 +25,13 @@ class Model_Account extends Model {
     public function get_data_info()
     {
         $stmt = $this->mysqli->prepare("SELECT * from users WHERE id = ?");
-        $stmt->bind_param('i', $_SESSION['id']);
-        $stmt->execute();
+        if ($stmt) {
+            $stmt->bind_param('i', $_SESSION['id']);
+            $stmt->execute();
+        } else {
+            return false;
+        }
+
 
         $result = $stmt->get_result();
         $record = $result->fetch_assoc();

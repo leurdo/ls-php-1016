@@ -52,7 +52,6 @@ class Route {
     }
 
     static function ErrorPage404(){
-        $project_path = Controller::$projectdir;
         $host = 'http://'.$_SERVER['HTTP_HOST'].'/' . SITE_PATH . '/';
         header('HTTP/1.1 404 Not Found');
         header('Status: 404 Not Found');

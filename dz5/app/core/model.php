@@ -11,14 +11,14 @@ class Model {
         $db_username = DB_USER;
         $db_password = DB_PASS;
 
-        $mysqli = @new mysqli($db_hostname, $db_username, $db_password, $db_database);
+        $mysqli = new mysqli($db_hostname, $db_username, $db_password, $db_database);
         if (!$mysqli) {
             printf("Невозможно подключиться к базе данных. Код ошибки: %s\n", mysqli_connect_error());
             exit;
         }
         $this->mysqli = $mysqli;
 
-        $mysqli->query('SET NAMES "UTF-8"');
+        $this->mysqli->query('SET NAMES "UTF-8"');
 
         $query = "CREATE TABLE IF NOT EXISTS users (
         id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
