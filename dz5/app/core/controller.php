@@ -37,7 +37,7 @@ class Controller {
     public function exitAccount()
     {
         session_unset();
-        header('Location: /' . SITE_PATH);
+        header('Location: /');
         exit;
     }
 

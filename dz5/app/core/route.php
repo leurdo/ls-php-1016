@@ -8,17 +8,16 @@ class Route {
         $action_name = 'index';
 
         // http://mvc/controller/action
-        $routes = explode('/', $_SERVER['REQUEST_URI']);
-        //print_r($routes);
+        $routes = explode('/', $_GET['route']);
         
         // получаем контроллер
-        if(!empty($routes[2])){
-            $controller_name = $routes[2];
+        if(!empty($routes[0])){
+            $controller_name = $routes[0];
         }
 
         // получаем действие
-        if(!empty($routes[3])){
-            $action_name = $routes[3];
+        if(!empty($routes[1])){
+            $action_name = $routes[1];
         }
 
         $model_name = 'Model_'.$controller_name;
@@ -52,7 +51,7 @@ class Route {
     }
 
     static function ErrorPage404(){
-        $host = 'http://'.$_SERVER['HTTP_HOST'].'/' . SITE_PATH . '/';
+        $host = 'http://'.$_SERVER['HTTP_HOST'].'/';
         header('HTTP/1.1 404 Not Found');
         header('Status: 404 Not Found');
         header('Location:'.$host.'404');
