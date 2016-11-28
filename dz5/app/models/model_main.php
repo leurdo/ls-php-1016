@@ -11,6 +11,7 @@ class Model_Main extends Model {
         if ($ok) {
            return $this->check_data_reg($username, $password);
         }
+        return false;
     }
 
     public function check_data_reg($username, $password)
