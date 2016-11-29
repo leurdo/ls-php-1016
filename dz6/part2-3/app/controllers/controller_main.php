@@ -16,11 +16,12 @@ class Controller_Main extends Controller {
             if ($this->isPost()) {
                 $username = htmlspecialchars(strip_tags($_POST['username']));
                 $password = htmlspecialchars(strip_tags($_POST['password']));
+                $email = htmlspecialchars(strip_tags($_POST['email']));
                 $captcha = $_POST['g-recaptcha-response'];
 
                 if ($this->get_captcha_response($captcha)) {
                     if ($_POST['registration']) {
-                        $data = $this->user_registration($username, $password);
+                        $data = $this->user_registration($username, $password, $email);
                         if ($this->isLogin() && !$data) {
                             header('Location: account');
                         }
@@ -38,10 +39,13 @@ class Controller_Main extends Controller {
         } else {
             header('Location: account');
         }
-        $this->view->generate('template_view.php', 'main_view.php', $data);
+        $this->view->generate('main.twig',
+            array(
+                'error_msg'=>$data
+            ));
     }
 
-    protected function user_registration($username, $password)
+    protected function user_registration($username, $password, $email)
     {
 
                 $username = htmlspecialchars(strip_tags($username));
@@ -51,7 +55,7 @@ class Controller_Main extends Controller {
 
                 if ($id) {
                     $_SESSION['id'] = $id;
-                    return ($this->user_sendmail($username, $password));
+                    return ($this->user_sendmail($username, $password, $email));
 
                 } else {
                     return 'Что-то пошло не так';
@@ -74,33 +78,35 @@ class Controller_Main extends Controller {
         }
     }
 
-    protected function user_sendmail($username, $password)
+    protected function user_sendmail($username, $password, $email)
     {
-        require_once 'app/vendor/autoload.php';
-        $mail = new PHPMailer;
-        $mail->isSMTP();                                      // Set mailer to use SMTP
-        $mail->Host = 'smtp.yandex.ru';  // Specify main and backup SMTP servers
-        $mail->SMTPAuth = true;                               // Enable SMTP authentication
-        $mail->Username = 'missis.leurdo2017';                 // SMTP username
-        $mail->Password = 'leurdo';                           // SMTP password
-        $mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
-        $mail->Port = 465;                                    // TCP port to connect to
-        $mail->CharSet = 'utf-8';
+        if ($email) {
+            $mail = new PHPMailer;
+            $mail->isSMTP();                                      // Set mailer to use SMTP
+            $mail->Host = 'smtp.yandex.ru';  // Specify main and backup SMTP servers
+            $mail->SMTPAuth = true;                               // Enable SMTP authentication
+            $mail->Username = 'missis.leurdo2017';                 // SMTP username
+            $mail->Password = 'leurdo';                           // SMTP password
+            $mail->SMTPSecure = 'ssl';                            // Enable TLS encryption, `ssl` also accepted
+            $mail->Port = 465;                                    // TCP port to connect to
+            $mail->CharSet = 'utf-8';
 
-        $mail->setFrom('missis.leurdo2017@yandex.ru', 'Mailer');
-        $mail->addAddress('katya.leurdo@gmail.com', 'Katya User');     // Add a recipient
-        $mail->addReplyTo('missis.leurdo2017@yandex.ru', 'Information');
+            $mail->setFrom('missis.leurdo2017@yandex.ru', 'Mailer');
+            $mail->addAddress($email);     // Add a recipient
+            $mail->addReplyTo('missis.leurdo2017@yandex.ru', 'Information');
 
-        $mail->isHTML(true);                                  // Set email format to HTML
+            $mail->isHTML(true);                                  // Set email format to HTML
 
-        $mail->Subject = 'Письмо от системы регистрации';
-        $mail->Body    = 'Спасибо за регистрацию! Ваш логин: ' . $username . ' Ваш пароль: ' . $password;
+            $mail->Subject = 'Письмо от системы регистрации';
+            $mail->Body = 'Спасибо за регистрацию! Ваш логин: ' . $username . ' Ваш пароль: ' . $password;
 
-        if(!$mail->send()) {
-            return 'Вы зарегистрированы, но сообщение не отправлено. Ошибка: ' . $mail->ErrorInfo;
-        } else {
-            return false;
+            if (!$mail->send()) {
+                return 'Вы зарегистрированы, но сообщение не отправлено. Ошибка: ' . $mail->ErrorInfo;
+            } else {
+                return false;
+            }
         }
+        return 'Вы зарегистрированы, но сообщение не отправлено, так как вы не указали адрес электронной почты.';
     }
 
     protected function get_captcha_response($captcha)

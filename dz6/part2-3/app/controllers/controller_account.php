@@ -28,8 +28,8 @@ class Controller_Account extends Controller {
 
                     $file = $_FILES['userpic'];
                     if ($file['name']) {
-                        $data = $this->loaadFile($file);
-                        if ($data['error']) {
+                        $error = $this->loaadFile($file);
+                        if ($error) {
                             $data_array = $this->model->get_data_info('photo');
                             $data['photo'] = $this->imageHtml($data_array['photo']);
                         } else {
@@ -60,8 +60,10 @@ class Controller_Account extends Controller {
 
         $data = $this->model->get_data_info('name', 'age', 'info', 'photo');
         $data['photo'] = $this->imageHtml($data['photo']);
+        $data['error'] = $error;
         $data['photolist'] = $this->fileList();
-        $this->view->generate('template_view.php','account_view.php', $data);
+        $this->view->generate('account.twig', $data);
+
     }
 
     private function loaadFile($file)
@@ -78,17 +80,13 @@ class Controller_Account extends Controller {
             $ext = strtolower(pathinfo($filename, PATHINFO_EXTENSION));
 
             if (!in_array($ext, $img_ext)) {
-                $data['error'] = 'Файл, который вы пытаетесь загрузить, не является картинкой!';
-                return $data;
-                exit;
+                return 'Файл, который вы пытаетесь загрузить, не является картинкой!';
             }
 
 
             $img_mime = array('image/gif', 'image/jpeg', 'image/pjpeg', 'image/png', 'image/svg+xml');
             if (!in_array($filetype, $img_mime)) {
-                $data['error'] = 'Файл, который вы пытаетесь загрузить, не является картинкой!';
-                return $data;
-                exit;
+                return 'Файл, который вы пытаетесь загрузить, не является картинкой!';
             }
 
             $newfilename = time() . '-' . $filename;
@@ -107,7 +105,7 @@ class Controller_Account extends Controller {
     private function imageHtml($file_name)
     {
         if($file_name) {
-            return '<p>Ваша фотография:' . $file_name . '</p><img src="' . $this->uploaddir . '/' . $file_name . '" height="100px">';
+            return $this->uploaddir . '/' . $file_name;
         }
         return '';
     }
@@ -123,8 +121,8 @@ class Controller_Account extends Controller {
                 $photoname = pathinfo($photo, PATHINFO_FILENAME);
                 $photoext = pathinfo($photo, PATHINFO_EXTENSION);
                 if (in_array($photoext, $img_ext)) {
-                    $photo_html = '<img src="' . $this->uploaddir . '/' . $photo . '" height="100px">';
-                    $photolist[] = array('img' => $photo_html, 'photoname' => $photoname);
+                    $photo_src = $this->uploaddir . '/' . $photo;
+                    $photolist[] = array('img' => $photo_src, 'photoname' => $photoname);
                 }
             }
         }

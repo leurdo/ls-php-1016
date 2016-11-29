@@ -1,3 +1,6 @@
+{% extends 'layout.twig' %}
+
+{% block content %}
 <h1 class="text-center">Домашнее задание №6</h1>
 <h3>Это - форма авторизации. Если Вы хотите зарегистрироваться, поставьте галочку в чекбоксе.</h3>
 <div class="col-md-6">
@@ -28,5 +31,6 @@
     </form>
 </div>
 <div class="col-md-6">
-    <?php echo $data; ?>
+    {{ error_msg }}
 </div>
+{% endblock %}
