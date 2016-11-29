@@ -1,0 +1,12 @@
+{
+    "name": "katyatina/part1",
+    "authors": [
+        {
+            "name": "Katya Leurdo",
+            "email": "edzakharova@yandex.ru"
+        }
+    ],
+    "require": {
+        "phpmailer/phpmailer": "^5.2"
+    }
+}
