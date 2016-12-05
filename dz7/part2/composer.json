@@ -1,0 +1,13 @@
+{
+    "name": "katyatina/part2",
+    "authors": [
+        {
+            "name": "Katya Leurdo",
+            "email": "katya.leurdo@gmail.com"
+        }
+    ],
+    "require": {
+        "illuminate/database": "^5.3",
+        "fzaninotto/faker": "^1.6"
+    }
+}
