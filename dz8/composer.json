@@ -1,0 +1,12 @@
+{
+  "name": "katyatina/part1",
+  "authors": [
+    {
+      "name": "Katya Leurdo",
+      "email": "edzakharova@yandex.ru"
+    }
+  ],
+  "require": {
+    "illuminate/database": "^5.3"
+  }
+}
