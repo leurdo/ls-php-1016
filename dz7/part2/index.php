@@ -23,7 +23,7 @@ $migration_products = new Create_Products_Table;
 $migration_products->up();
 $migration_cats = new Create_Cats_Table;
 $migration_cats->up();
-$migration_rel = new Create_Prod_Cat_Table;
+$migration_rel = new Create_Cat_Product_Table;
 $migration_rel->up();
 
 $seeder = new DatabaseSeeder;
