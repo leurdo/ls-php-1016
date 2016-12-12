@@ -20,9 +20,9 @@ $('#btn').on('click', function(){
 });
 
 function makeRow(data){
-    each (data.categories as category)
-    {
-
-    }
-    return "<td>"+data.title+"</td><td>"+data.description+"</td><td>"+data.price+"</td><td>"+data.categories+"</td>";
+    var catList = '';
+    data.categories.forEach(function(item, i, arr) {
+        catList = catList + item.cat + ' ';
+    });
+    return "<td>"+data.title+"</td><td>"+data.description+"</td><td>"+data.price+"</td><td>"+catList+"</td>";
 }

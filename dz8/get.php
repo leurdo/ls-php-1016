@@ -2,7 +2,7 @@
 require "config.php";
 $id = $_REQUEST['id'];
 $product = Product::find($id);
-$cats = $product->cats->toJson();
+$cats = $product->cats->toArray();
 $product->categories = $cats;
 
 if (!empty($product)) {
