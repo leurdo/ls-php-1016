@@ -1,7 +1,8 @@
 <?php
     $image = htmlspecialchars(strip_tags($_POST['image']));
-    $token = 'Здесь нужно написать токен';
-    $user_id = htmlspecialchars(strip_tags($_POST['wall']));;
+    $token = 'bb20fec0917121a5d7681e96daa3562f39d570e497ed944263ff4cacb4bbf86037dea6ccfa8e22689c876';
+    //$user_id = htmlspecialchars(strip_tags($_POST['wall']));
+    $user_id = '510101';
     // Игорь Твердохлеб 510101
 
 
@@ -21,9 +22,10 @@ function GET($url)
 
 function getUploadServer($token, $user_id)
 {
-    $url = 'https://api.vk.com/method/photos.getWallUploadServer?access_token=' . $token;
+    $url = 'https://api.vk.com/method/photos.getWallUploadServer?owner_id=397660210&access_token=' . $token;
     $response = GET($url);
     $response = json_decode($response);
+    print_r($response);
     return $response->response->upload_url;
 }
 
@@ -32,7 +34,7 @@ function uploadFile($upload_url, $file_path)
     $ch = curl_init($upload_url);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $cfile = curl_file_create(realpath($file_path), 'image/png', 'image.png');
+    $cfile = curl_file_create(getcwd().'/'.$file_path, 'image/png', 'image.png');
     curl_setopt($ch, CURLOPT_POSTFIELDS, array('photo' => $cfile));
     $response = curl_exec($ch);
     if ($response === FALSE) {
@@ -46,14 +48,14 @@ function uploadFile($upload_url, $file_path)
 
 function postToWall($token, $user_id, $photo, $server, $hash)
 {
-    $url = 'https://api.vk.com/method/photos.saveWallPhoto?user_id='.$user_id.'&photo='.$photo.'&server='.$server.'&hash='.$hash.'&access_token='.$token;
+    $url = 'https://api.vk.com/method/photos.saveWallPhoto?owner_id='.$user_id.'&photo='.$photo.'&server='.$server.'&hash='.$hash.'&access_token='.$token;
     $response = GET($url);
     return $response;
 }
 
-function publicate($token, $id)
+function publicate($token, $user_id, $id, $hash)
 {
-    $url = 'https://api.vk.com/method/wall.post?attachments='.$id.'&access_token='.$token;
+    $url = 'https://api.vk.com/method/wall.post?owner_id='.$user_id.'&attachments='.$id.'&hash='.$hash.'&access_token='.$token;
     $response = GET($url);
     return $response;
 }
@@ -64,8 +66,8 @@ $photo_striped = stripslashes($upload_result->photo);
 $result = postToWall($token, $user_id, $upload_result->photo, $upload_result->server, $upload_result->hash);
 $result = json_decode($result);
 $result = $result->response;
-//var_dump($result[0]->id);
-$posted = publicate($token, $result[0]->id);
+var_dump($result);
+$posted = publicate($token, $user_id, $result[0]->id, $upload_result->hash);
 echo 'Картинка успешно загружена. Ее id:'.$posted;
 
 ?>
